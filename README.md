@@ -5,3 +5,5 @@ Originally published on CodeProject at: <a href="https://www.codeproject.com/Art
 
 Based on original design published in C\C++ Users Journal (Dr. Dobb's) at: <a href="http://www.drdobbs.com/cpp/state-machine-design-in-c/184401236"><strong>State Machine Design in C++</strong></a>
 
+See related compact state machine Git project <a href="https://github.com/endurodave/StateMachineCompact"><strong>here</strong></a>.
+
