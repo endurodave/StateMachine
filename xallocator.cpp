@@ -1,5 +1,5 @@
 #include "xallocator.h"
-#include "allocator.h"
+#include "Allocator.h"
 #include "Fault.h"
 #include <iostream>
 
