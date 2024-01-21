@@ -924,9 +924,11 @@ reinterpret_cast&lt;StateFunc&gt;(stateFunc)</pre>
 <h2>References</h2>
 
 <ul>
-	<li><strong><a href="http://www.codeproject.com/Articles/1156423/Cplusplus-State-Machine-with-Threads">C++ State Machine&nbsp;with Threads</a></strong> - by David Lafreniere</li>
-	<li><a href="https://www.codeproject.com/Articles/1165243/Cplusplus-State-Machine-with-Asynchronous-Multicas"><strong>C++ State Machine with Asynchronous Multicast Delegates</strong></a> - by David Lafreniere</li>
-	<li><strong><a href="http://www.codeproject.com/Articles/1084801/Replace-malloc-free-with-a-Fast-Fixed-Block-Memory">Replace malloc/free with a Fast Fixed Block Memory Allocator</a></strong>&nbsp;- by David Lafreniere</li>
-	<li><strong><a href="http://www.codeproject.com/Articles/1083210/An-Efficient-Cplusplus-Fixed-Block-Memory-Allocato">An Efficient C++ Fixed Block Memory Allocator</a></strong> - by David Lafreniere</li>
+	<li><a href="https://github.com/endurodave/StateMachineWithThreads">C++ State Machine with Threads</a> - by David Lafreniere</li>
+    <li><a href="https://github.com/endurodave/StateMachineWithDelegates">C++ State Machine with Delegates</a> - by David Lafreniere</li>
+    <li><a href="https://github.com/endurodave/StateMachineWithModernDelegates">C++ State Machine with Modern Delegates</a> - by David Lafreniere</li>
+	<li><a href="https://www.codeproject.com/Articles/1165243/Cplusplus-State-Machine-with-Asynchronous-Multicas"><strong>C++ State Machine with Asynchronous Multicast Delegates</a> - by David Lafreniere</li>
+	<li><a href="http://www.codeproject.com/Articles/1084801/Replace-malloc-free-with-a-Fast-Fixed-Block-Memory">Replace malloc/free with a Fast Fixed Block Memory Allocator</a>&nbsp;- by David Lafreniere</li>
+	<li><a href="http://www.codeproject.com/Articles/1083210/An-Efficient-Cplusplus-Fixed-Block-Memory-Allocato">An Efficient C++ Fixed Block Memory Allocator</a> - by David Lafreniere</li>
 </ul>
 
