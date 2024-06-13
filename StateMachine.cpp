@@ -12,7 +12,7 @@ StateMachine::StateMachine(BYTE maxStates, BYTE initialState) :
 	m_pEventData(NULL)
 {
 	ASSERT_TRUE(MAX_STATES < EVENT_IGNORED);
-}  
+}
 
 //----------------------------------------------------------------------------
 // ExternalEvent
@@ -44,7 +44,7 @@ void StateMachine::ExternalEvent(BYTE newState, const EventData* pData)
 		// when all state machine events are processed.
 		StateEngine();
 
-		// TODO - release software lock here 
+		// TODO - release software lock here
 	}
 }
 
@@ -53,12 +53,19 @@ void StateMachine::ExternalEvent(BYTE newState, const EventData* pData)
 //----------------------------------------------------------------------------
 void StateMachine::InternalEvent(BYTE newState, const EventData* pData)
 {
-	if (pData == NULL)
+	// if (pData == NULL)
+	// 	pData = new NoEventData();
+#ifndef EXTERNAL_EVENT_NO_HEAP_DATA
+  if (pData == NULL) {
 		pData = new NoEventData();
+	}
+#else
+  assert(pData != NULL);
+#endif  // EXTERNAL_EVENT_NO_HEAP_DATA
 
-	m_pEventData = pData;
-	m_eventGenerated = TRUE;
-	m_newState = newState;
+  m_pEventData = pData;
+  m_eventGenerated = TRUE;
+  m_newState = newState;
 }
 
 //----------------------------------------------------------------------------
@@ -87,7 +94,7 @@ void StateMachine::StateEngine(const StateMapRow* const pStateMap)
 #if EXTERNAL_EVENT_NO_HEAP_DATA
 	BOOL externalEvent = TRUE;
 #endif
-	const EventData* pDataTemp = NULL;	
+	const EventData* pDataTemp = NULL;
 
 	// While events are being generated keep executing states
 	while (m_eventGenerated)
@@ -183,7 +190,7 @@ void StateMachine::StateEngine(const StateMapRowEx* const pStateMapEx)
 				if (entry != NULL)
 					entry->InvokeEntryAction(this, pDataTemp);
 
-				// Ensure exit/entry actions didn't call InternalEvent by accident 
+				// Ensure exit/entry actions didn't call InternalEvent by accident
 				ASSERT_TRUE(m_eventGenerated == FALSE);
 			}
 
