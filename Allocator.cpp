@@ -18,7 +18,7 @@ Allocator::Allocator(size_t size, UINT objects, CHAR* memory, const CHAR* name) 
     m_deallocations(0),
     m_name(name)
 {
-    // If using a fixed memory pool 
+    // If using a fixed memory pool
 	if (m_maxObjects)
 	{
 		// If caller provided an external memory pool
@@ -27,7 +27,7 @@ Allocator::Allocator(size_t size, UINT objects, CHAR* memory, const CHAR* name) 
 			m_pPool = memory;
 			m_allocatorMode = STATIC_POOL;
 		}
-		else 
+		else
 		{
 			m_pPool = (CHAR*)new CHAR[m_blockSize * m_maxObjects];
 			m_allocatorMode = HEAP_POOL;
@@ -42,7 +42,7 @@ Allocator::Allocator(size_t size, UINT objects, CHAR* memory, const CHAR* name) 
 //------------------------------------------------------------------------------
 Allocator::~Allocator()
 {
-	// If using pool then destroy it, otherwise traverse free-list and 
+	// If using pool then destroy it, otherwise traverse free-list and
 	// destroy each individual block
 	if (m_allocatorMode == HEAP_POOL)
 		delete [] m_pPool;
@@ -58,44 +58,37 @@ Allocator::~Allocator()
 //------------------------------------------------------------------------------
 void* Allocator::Allocate(size_t size)
 {
-    ASSERT_TRUE(size <= m_objectSize);
-	
-    // If can't obtain existing block then get a new one
-    void* pBlock = Pop();
-    if (!pBlock)
-    {
-        // If using a pool method then get block from pool,
-        // otherwise using dynamic so get block from heap
-        if (m_maxObjects)
-        {
-            // If we have not exceeded the pool maximum
-            if(m_poolIndex < m_maxObjects)
-            {
-                pBlock = (void*)(m_pPool + (m_poolIndex++ * m_blockSize));
-            }
-            else
-            {
-                // Get the pointer to the new handler
-                std::new_handler handler = std::set_new_handler(0);
-                std::set_new_handler(handler);
+  SM_ASSERT_TRUE(size <= m_objectSize);
 
-                // If a new handler is defined, call it
-                if (handler)
-                    (*handler)();
-                else
-                    ASSERT();
-            }
-        }
+  // If can't obtain existing block then get a new one
+  void* pBlock = Pop();
+  if (!pBlock) {
+    // If using a pool method then get block from pool,
+    // otherwise using dynamic so get block from heap
+    if (m_maxObjects) {
+      // If we have not exceeded the pool maximum
+      if (m_poolIndex < m_maxObjects) {
+        pBlock = (void*)(m_pPool + (m_poolIndex++ * m_blockSize));
+      } else {
+        // Get the pointer to the new handler
+        std::new_handler handler = std::set_new_handler(0);
+        std::set_new_handler(handler);
+
+        // If a new handler is defined, call it
+        if (handler)
+          (*handler)();
         else
-        {
-        	m_blockCnt++;
-            pBlock = (void*)new CHAR[m_blockSize];
-        }
+          ASSERT();
+      }
+    } else {
+      m_blockCnt++;
+      pBlock = (void*)new CHAR[m_blockSize];
+    }
     }
 
     m_blocksInUse++;
     m_allocations++;
-	
+
     return pBlock;
 }
 

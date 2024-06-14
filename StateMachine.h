@@ -65,9 +65,9 @@ public:
 		// This next internal event is not valid and causes the assert to fail:
 		//    InternalEvent(ST_MY_STATE_FUNCTION, new OtherEventData());
 		const Data* derivedData = dynamic_cast<const Data*>(data);
-		ASSERT_TRUE(derivedData != NULL);
+                SM_ASSERT_TRUE(derivedData != NULL);
 
-		// Call the state function
+                // Call the state function
 		(derivedSM->*Func)(derivedData);
 	}
 };
@@ -96,9 +96,9 @@ public:
 	{
 		SM* derivedSM = static_cast<SM*>(sm);
 		const Data* derivedData = dynamic_cast<const Data*>(data);
-		ASSERT_TRUE(derivedData != NULL);
+                SM_ASSERT_TRUE(derivedData != NULL);
 
-		// Call the guard function
+                // Call the guard function
 		return (derivedSM->*Func)(derivedData);
 	}
 };
@@ -125,9 +125,9 @@ public:
 	{
 		SM* derivedSM = static_cast<SM*>(sm);
 		const Data* derivedData = dynamic_cast<const Data*>(data);
-		ASSERT_TRUE(derivedData != NULL);
+                SM_ASSERT_TRUE(derivedData != NULL);
 
-		// Call the entry function
+                // Call the entry function
 		(derivedSM->*Func)(derivedData);
 	}
 };
@@ -281,11 +281,12 @@ private:
 #define TRANSITION_MAP_ENTRY(entry)\
     entry,
 
-#define END_TRANSITION_MAP(data) \
-    };\
-	ASSERT_TRUE(GetCurrentState() < ST_MAX_STATES); \
-    ExternalEvent(TRANSITIONS[GetCurrentState()], data); \
-	C_ASSERT((sizeof(TRANSITIONS)/sizeof(BYTE)) == ST_MAX_STATES);
+#define END_TRANSITION_MAP(data)                       \
+  }                                                    \
+  ;                                                    \
+  SM_ASSERT_TRUE(GetCurrentState() < ST_MAX_STATES);   \
+  ExternalEvent(TRANSITIONS[GetCurrentState()], data); \
+  C_ASSERT((sizeof(TRANSITIONS) / sizeof(BYTE)) == ST_MAX_STATES);
 
 #define PARENT_TRANSITION(state) \
 	if (GetCurrentState() >= ST_MAX_STATES && \

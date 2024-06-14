@@ -11,7 +11,7 @@ StateMachine::StateMachine(BYTE maxStates, BYTE initialState) :
 	m_eventGenerated(FALSE),
 	m_pEventData(NULL)
 {
-	ASSERT_TRUE(MAX_STATES < EVENT_IGNORED);
+  SM_ASSERT_TRUE(MAX_STATES < EVENT_IGNORED);
 }
 
 //----------------------------------------------------------------------------
@@ -98,9 +98,9 @@ void StateMachine::StateEngine(const StateMapRow* const pStateMap)
 	while (m_eventGenerated)
 	{
 		// Error check that the new state is valid before proceeding
-		ASSERT_TRUE(m_newState < MAX_STATES);
+                SM_ASSERT_TRUE(m_newState < MAX_STATES);
 
-		// Get the pointer from the state map
+                // Get the pointer from the state map
 		const StateBase* state = pStateMap[m_newState].State;
 
 		// Copy of event data pointer
@@ -116,8 +116,8 @@ void StateMachine::StateEngine(const StateMapRow* const pStateMap)
 		SetCurrentState(m_newState);
 
 		// Execute the state action passing in event data
-		ASSERT_TRUE(state != NULL);
-		state->InvokeStateAction(this, pDataTemp);
+                SM_ASSERT_TRUE(state != NULL);
+                state->InvokeStateAction(this, pDataTemp);
 
 		// If event data was used, then delete it
 #if EXTERNAL_EVENT_NO_HEAP_DATA
@@ -152,9 +152,9 @@ void StateMachine::StateEngine(const StateMapRowEx* const pStateMapEx)
 	while (m_eventGenerated)
 	{
 		// Error check that the new state is valid before proceeding
-		ASSERT_TRUE(m_newState < MAX_STATES);
+                SM_ASSERT_TRUE(m_newState < MAX_STATES);
 
-		// Get the pointers from the state map
+                // Get the pointers from the state map
 		const StateBase* state = pStateMapEx[m_newState].State;
 		const GuardBase* guard = pStateMapEx[m_newState].Guard;
 		const EntryBase* entry = pStateMapEx[m_newState].Entry;
@@ -189,15 +189,15 @@ void StateMachine::StateEngine(const StateMapRowEx* const pStateMapEx)
 					entry->InvokeEntryAction(this, pDataTemp);
 
 				// Ensure exit/entry actions didn't call InternalEvent by accident
-				ASSERT_TRUE(m_eventGenerated == FALSE);
-			}
+                                SM_ASSERT_TRUE(m_eventGenerated == FALSE);
+                        }
 
 			// Switch to the new current state
 			SetCurrentState(m_newState);
 
 			// Execute the state action passing in event data
-			ASSERT_TRUE(state != NULL);
-			state->InvokeStateAction(this, pDataTemp);
+                        SM_ASSERT_TRUE(state != NULL);
+                        state->InvokeStateAction(this, pDataTemp);
 		}
 
 		// If event data was used, then delete it

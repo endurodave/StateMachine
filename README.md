@@ -146,7 +146,7 @@ switch (currentState) {
 <p>When an event is generated, it can optionally attach event data to be used by the state function during execution. Once the state has completed execution, the event data is considered used up and must be deleted. Therefore, any event data sent to a state machine must be created on the heap, via operator new, so that the state machine can delete it once used. In addition, for our particular implementation the event data must inherit from the <code>EventData </code>base class. This gives the state machine engine a common base class for which to delete all event data.</p>
 
 <pre lang="c++">
-class EventData 
+class EventData
 {
 public:
     virtual ~EventData() {}
@@ -167,7 +167,7 @@ public:
 <p>The state machine source code is contained within the StateMachine.cpp and StateMachine.h files (see attached <em>StateMachine.zip</em>). The code below shows the class declaration.</p>
 
 <pre lang="c++">
-class StateMachine 
+class StateMachine
 {
 public:
     enum { EVENT_IGNORED = 0xFE, CANNOT_HAPPEN };
@@ -176,11 +176,11 @@ public:
     virtual ~StateMachine() {}
 
     BYTE GetCurrentState() { return m_currentState; }
-    
+
 protected:
     void ExternalEvent(BYTE newState, const EventData* pData = NULL);
     void InternalEvent(BYTE newState, const EventData* pData = NULL);
-    
+
 private:
     const BYTE MAX_STATES;
     BYTE m_currentState;
@@ -190,10 +190,10 @@ private:
 
     virtual const StateMapRow* GetStateMap() = 0;
     virtual const StateMapRowEx* GetStateMapEx() = 0;
-    
+
     void SetCurrentState(BYTE newState) { m_currentState = newState; }
 
-    void StateEngine(void);     
+    void StateEngine(void);
     void StateEngine(const StateMapRow* const pStateMap);
     void StateEngine(const StateMapRowEx* const pStateMapEx);
 };</pre>
@@ -234,7 +234,7 @@ public:
     void Halt();
 
 private:
-    INT m_currentSpeed; 
+    INT m_currentSpeed;
 
     // State enumeration order must match the order of state method entries
     // in the state map.
@@ -265,13 +265,13 @@ private:
 private:
     virtual const StateMapRowEx* GetStateMapEx() { return NULL; }
     virtual const StateMapRow* GetStateMap() {
-        static const StateMapRow STATE_MAP[] = { 
+        static const StateMapRow STATE_MAP[] = {
             &amp;Idle,
             &amp;Stop,
             &amp;Start,
             &amp;ChangeSpeed,
-        }; 
-        C_ASSERT((sizeof(STATE_MAP)/sizeof(StateMapRow)) == ST_MAX_STATES); 
+        };
+        C_ASSERT((sizeof(STATE_MAP)/sizeof(StateMapRow)) == ST_MAX_STATES);
         return &amp;STATE_MAP[0]; }
 };</pre>
 
@@ -295,7 +295,7 @@ public:
     void Halt();
 
 private:
-    INT m_currentSpeed; 
+    INT m_currentSpeed;
 
     // State enumeration order must match the order of state method entries
     // in the state map.
@@ -321,7 +321,7 @@ private:
         STATE_MAP_ENTRY(&amp;Stop)
         STATE_MAP_ENTRY(&amp;Start)
         STATE_MAP_ENTRY(&amp;ChangeSpeed)
-    END_STATE_MAP    
+    END_STATE_MAP
 };</pre>
 
 <p><code>Motor </code>implements our hypothetical motor-control state machine, where clients can start the motor, at a specific speed, and stop the motor. The<code> SetSpeed()</code> and <code>Halt() </code>public functions are considered external events into the <code>Motor </code>state machine. <code>SetSpeed()</code> takes event data, which contains the motor speed. This data structure will be deleted upon completion of the state processing, so it is imperative that the structure inherit from <code>EventData </code>and be created using <code>operator new </code>before the function call is made.</p>
@@ -386,7 +386,7 @@ StateAction&lt;Motor, MotorData, &amp;Motor::ST_ChangeSpeed&gt; ChangeSpeed;</pr
 STATE_DEFINE(Motor, Stop, NoEventData)
 {
     cout &lt;&lt; &quot;Motor::ST_Stop&quot; &lt;&lt; endl;
-    m_currentSpeed = 0; 
+    m_currentSpeed = 0;
 
     // perform the stop motor processing here
     // transition to Idle via an internal event
@@ -399,7 +399,7 @@ STATE_DEFINE(Motor, Stop, NoEventData)
 void Motor::ST_Stop(const NoEventData* data)
 {
     cout &lt;&lt; &quot;Motor::ST_Stop&quot; &lt;&lt; endl;
-    m_currentSpeed = 0; 
+    m_currentSpeed = 0;
 
     // perform the stop motor processing here
     // transition to Idle via an internal event
@@ -445,13 +445,13 @@ END_STATE_MAP    </pre>
 private:
     virtual const StateMapRowEx* GetStateMapEx() { return NULL; }
     virtual const StateMapRow* GetStateMap() {
-        static const StateMapRow STATE_MAP[] = { 
+        static const StateMapRow STATE_MAP[] = {
             &amp;Idle,
             &amp;Stop,
             &amp;Start,
             &amp;ChangeSpeed,
-        }; 
-        C_ASSERT((sizeof(STATE_MAP)/sizeof(StateMapRow)) == ST_MAX_STATES); 
+        };
+        C_ASSERT((sizeof(STATE_MAP)/sizeof(StateMapRow)) == ST_MAX_STATES);
         return &amp;STATE_MAP[0]; }</pre>
 
 <p>Notice the <code>C_ASSERT </code>macro. It provides compile time protection against a state map having the wrong number of entries. Visual Studio gives an error of &quot;error C2118: negative subscript&quot;. Your compiler may give a different error message.&nbsp;</p>
@@ -460,7 +460,7 @@ private:
 
 <pre lang="c++">
 BEGIN_STATE_MAP_EX
-STATE_MAP_ENTRY_EX or STATE_MAP_ENTRY_ALL_EX 
+STATE_MAP_ENTRY_EX or STATE_MAP_ENTRY_ALL_EX
 END_STATE_MAP_EX</pre>
 
 <p>The <code>STATE_MAP_ENTRY_ALL_EX </code>macro has four arguments for the state action, guard condition, entry action and exit action in that order. The state action is mandatory but the other actions are optional. If a state doesn&#39;t have an action, then use 0 for the argument. If a state doesn&#39;t have any guard/entry/exit options, the <code>STATE_MAP_ENTRY_EX </code>macro defaults all unused options to 0. The macro snippet below is for an advanced example presented later in the article.&nbsp;</p>
@@ -501,14 +501,14 @@ template &lt;class SM, class Data, void (SM::*Func)(const Data*)&gt;
 class StateAction : public StateBase
 {
 public:
-    virtual void InvokeStateAction(StateMachine* sm, const EventData* data) const 
+    virtual void InvokeStateAction(StateMachine* sm, const EventData* data) const
     {
         // Downcast the state machine and event data to the correct derived type
         SM* derivedSM = static_cast&lt;SM*&gt;(sm);
 
-        // Dynamic cast the data to the correct derived type        
+        // Dynamic cast the data to the correct derived type
         const Data* derivedData = dynamic_cast&lt;const Data*&gt;(data);
-        ASSERT_TRUE(derivedData != NULL);
+        SM_ASSERT_TRUE(derivedData != NULL);
 
         // Call the state function
         (derivedSM-&gt;*Func)(derivedData);
@@ -552,8 +552,8 @@ void Motor::Halt()
         ST_STOP,                          // ST_START
         ST_STOP,                          // ST_CHANGE_SPEED
     };
-    ExternalEvent(TRANSITIONS[GetCurrentState()], NULL); 
-    C_ASSERT((sizeof(TRANSITIONS)/sizeof(BYTE)) == ST_MAX_STATES);     
+    ExternalEvent(TRANSITIONS[GetCurrentState()], NULL);
+    C_ASSERT((sizeof(TRANSITIONS)/sizeof(BYTE)) == ST_MAX_STATES);
 }</pre>
 
 <p><code>BEGIN_TRANSITION_MAP</code> starts the map. Each <code>TRANSITION_MAP_ENTRY </code>that follows indicates what the state machine should do based upon the current state. The number of entries in each transition map table must match the number of state functions exactly. In our example, we have four state functions, so we need four entries. The location of each entry matches the order of state functions defined within the state map. Thus, the first entry within the <code>Halt()</code> function indicates an <code>EVENT_IGNORED</code> as shown below.&nbsp;</p>
@@ -603,17 +603,17 @@ state-&gt;InvokeStateAction(this, pDataTemp);</pre>
 <pre lang="c++">
 void StateMachine::StateEngine(const StateMapRow* const pStateMap)
 {
-    const EventData* pDataTemp = NULL;    
-    
+    const EventData* pDataTemp = NULL;
+
     // While events are being generated keep executing states
     while (m_eventGenerated)
     {
         // Error check that the new state is valid before proceeding
-        ASSERT_TRUE(m_newState &lt; MAX_STATES);
-    
+        SM_ASSERT_TRUE(m_newState &lt; MAX_STATES);
+
         // Get the pointer from the state map
         const StateBase* state = pStateMap[m_newState].State;
-            
+
            // Copy of event data pointer
         pDataTemp = m_pEventData;
 
@@ -627,7 +627,7 @@ void StateMachine::StateEngine(const StateMapRow* const pStateMap)
         SetCurrentState(m_newState);
 
         // Execute the state action passing in event data
-        ASSERT_TRUE(state != NULL);
+        SM_ASSERT_TRUE(state != NULL);
         state-&gt;InvokeStateAction(this, pDataTemp);
 
         // If event data was used, then delete it
@@ -770,7 +770,7 @@ STATE_DECLARE(SelfTest,     Failed,          NoEventData)</pre>
 enum States
 {
     // Continue state numbering using the last SelfTest::States enum value
-    ST_START_TEST = SelfTest::ST_MAX_STATES,    
+    ST_START_TEST = SelfTest::ST_MAX_STATES,
     ST_ACCELERATION,
     ST_WAIT_FOR_ACCELERATION,
     ST_DECELERATION,
@@ -839,9 +839,9 @@ void SelfTest::Cancel()
 <p>The <code>SUBCLASS_TRANSITION </code>example above is read &ldquo;If the Cancel event is generated when the state machine is <em>not</em> in <code>ST_IDLE</code>, <code>ST_COMPLETE</code>, or <code>ST_FAILED </code>then transition to the <code>ST_FAILED </code>state&rdquo;. The macro preceding the transition map is the catch-all if the current state is beyond what is known by the current state machine hierarchy level. The expanded <code>SUBCLASS_TRANSITION </code>macro for the above example is shown below.</p>
 
 <pre lang="c++">
-if (GetCurrentState() &gt;= ST_MAX_STATES &amp;&amp; 
-    GetCurrentState() &lt; GetMaxStates()) { 
-     ExternalEvent(ST_FAILED); 
+if (GetCurrentState() &gt;= ST_MAX_STATES &amp;&amp;
+    GetCurrentState() &lt; GetMaxStates()) {
+     ExternalEvent(ST_FAILED);
      return; }
 </pre>
 
@@ -882,7 +882,7 @@ STATE_DEFINE(CentrifugeTest,   Idle, NoEventData)
     cout &lt;&lt; &quot;CentrifugeTest::ST_Idle&quot; &lt;&lt; endl;
 
     // Call base class Idle state
-    SelfTest::ST_Idle(data);    
+    SelfTest::ST_Idle(data);
     StopPoll();
 }</pre>
 

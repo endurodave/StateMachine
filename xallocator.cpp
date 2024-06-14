@@ -95,7 +95,7 @@ static void lock_init()
 {
 #if WIN32
 	BOOL success = InitializeCriticalSectionAndSpinCount(&_criticalSection, 0x00000400);
-	ASSERT_TRUE(success != 0);
+        SM_ASSERT_TRUE(success != 0);
 #endif
 	_xallocInitialized = TRUE;
 }
@@ -300,7 +300,7 @@ extern "C" Allocator* xallocator_get_allocator(size_t size)
 	Allocator* allocator = find_allocator(blockSize);
 
 #ifdef STATIC_POOLS
-	ASSERT_TRUE(allocator != NULL);
+        SM_ASSERT_TRUE(allocator != NULL);
 #else
 	// If there is not an allocator already created to handle this block size
 	if (allocator == NULL)
