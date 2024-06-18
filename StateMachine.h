@@ -64,10 +64,12 @@ public:
 		//    InternalEvent(ST_MY_STATE_FUNCTION, new MyEventData());
 		// This next internal event is not valid and causes the assert to fail:
 		//    InternalEvent(ST_MY_STATE_FUNCTION, new OtherEventData());
-		const Data* derivedData = dynamic_cast<const Data*>(data);
-                SM_ASSERT_TRUE(derivedData != NULL);
+		// Note: The original implementation uses dynamic_cast which is not allowed
+		// in our FW. We use reinterpret_cast and assume the data is indeed derived
+		// from the base class.
+		const Data* derivedData = reinterpret_cast<const Data*>(data);
 
-                // Call the state function
+		// Call the state function
 		(derivedSM->*Func)(derivedData);
 	}
 };
