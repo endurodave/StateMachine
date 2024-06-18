@@ -123,8 +123,8 @@ void StateMachine::StateEngine(const StateMapRow* const pStateMap)
 #if EXTERNAL_EVENT_NO_HEAP_DATA
 		if (pDataTemp)
 		{
-			if (!externalEvent)
-				delete pDataTemp;
+			// if (!externalEvent)
+			// 	delete pDataTemp;
 			pDataTemp = NULL;
 		}
 		externalEvent = FALSE;
