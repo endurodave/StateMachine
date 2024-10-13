@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "MotorNM.h"
 #include "Motor.h"
 #include "Player.h"
