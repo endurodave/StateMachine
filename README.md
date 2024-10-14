@@ -13,6 +13,7 @@ See related compact state machine Git project <a href="https://github.com/enduro
 
 <ul>
 	<li><a href="https://github.com/endurodave/C_StateMachine">State Machine Design in C</a> - by David Lafreniere</li>
+   	<li><a href="https://github.com/endurodave/StateMachineCompact">State Machine Design in C++ (Compact)</a> - by David Lafreniere</li>
 	<li><a href="https://github.com/endurodave/StateMachineWithThreads">C++ State Machine with Threads</a> - by David Lafreniere</li>
 	<li><a href="https://github.com/endurodave/StateMachineWithDelegates">C++ State Machine with Asynchronous Multicast Delegates</a> - by David Lafreniere</li>
 	<li><a href="https://github.com/endurodave/StateMachineWithModernDelegates">C++ State Machine with Modern Asynchronous Multicast Delegates</a> - by David Lafreniere</li>
