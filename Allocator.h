@@ -4,7 +4,8 @@
 #include "DataTypes.h"
 #include <stddef.h>
 
-/// See http://www.codeproject.com/Articles/1083210/An-efficient-Cplusplus-fixed-block-memory-allocato
+/// @see https://github.com/endurodave/Allocator
+/// David Lafreniere
 class Allocator
 {
 public:

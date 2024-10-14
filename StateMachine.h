@@ -13,7 +13,8 @@
 // used inside the state machine always heap allocates event data. 
 //#define EXTERNAL_EVENT_NO_HEAP_DATA 1
 
-// See http://www.codeproject.com/Articles/1087619/State-Machine-Design-in-Cplusplus
+// @see https://github.com/endurodave/StateMachine
+// David Lafreniere
 
 // Uncomment the include below the XALLOCATOR line to use the xallocator instead 
 // of the global heap. Any EventData, or derived class thereof, created with 

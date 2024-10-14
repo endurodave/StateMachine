@@ -3,6 +3,9 @@
 #include "Player.h"
 #include "CentrifugeTest.h"
 
+// @see https://github.com/endurodave/StateMachine
+// David Lafreniere
+
 using namespace std;
 
 int main(void)

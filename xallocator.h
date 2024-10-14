@@ -4,7 +4,8 @@
 #include <stddef.h>
 #include "DataTypes.h"
 
-// See http://www.codeproject.com/Articles/1084801/Replace-malloc-free-with-a-Fast-Fixed-Block-Memory
+// @see https://github.com/endurodave/xallocator
+// David Lafreniere
 
 #ifdef __cplusplus
 // Define AUTOMATIC_XALLOCATOR_INIT_DESTROY to automatically call xalloc_init() and
