@@ -12,11 +12,12 @@ See related compact state machine Git project <a href="https://github.com/enduro
 <p>See other related GitHub repositories:</p>
 
 <ul>
-	<li><a href="https://github.com/endurodave/C_StateMachine">State Machine Design in C</a> - by David Lafreniere</li>
-   	<li><a href="https://github.com/endurodave/StateMachineCompact">State Machine Design in C++ (Compact)</a> - by David Lafreniere</li>
-	<li><a href="https://github.com/endurodave/StateMachineWithThreads">C++ State Machine with Threads</a> - by David Lafreniere</li>
-	<li><a href="https://github.com/endurodave/StateMachineWithDelegates">C++ State Machine with Asynchronous Multicast Delegates</a> - by David Lafreniere</li>
-	<li><a href="https://github.com/endurodave/StateMachineWithModernDelegates">C++ State Machine with Modern Asynchronous Multicast Delegates</a> - by David Lafreniere</li>
+	<li><a href="https://github.com/endurodave/AsyncStateMachine">Asynchronous State Machine in C++</a> - An asynchronous C++ state machine implemented using an asynchronous delegate library.</li>
+	<li><a href="https://github.com/endurodave/C_StateMachine">State Machine Design in C</a> - A compact C finite state machine (FSM) implementation.</li>
+   	<li><a href="https://github.com/endurodave/StateMachineCompact">State Machine Design in C++ (Compact)</a> - A compact C++ finite state machine (FSM) implementation.</li>
+	<li><a href="https://github.com/endurodave/StateMachineWithThreads">C++ State Machine with Threads</a> - A framework combining C++ state machines and multicast asynchronous callbacks.</li>
+	<li><a href="https://github.com/endurodave/StateMachineWithDelegates">C++ State Machine with Asynchronous Multicast Delegates</a> - A framework combining C++ state machines with asynchronous multicast delegates.</li>
+	<li><a href="https://github.com/endurodave/StateMachineWithModernDelegates">C++ State Machine with Modern Asynchronous Multicast Delegates</a> - A framework combining C++ state machines with modern asynchronous multicast delegates.</li>
 </ul>
 
 <h2>Introduction&nbsp;</h2>
