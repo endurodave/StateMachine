@@ -1,9 +1,45 @@
 # State Machine Design in C++
 A compact C++ finite state machine (FSM) implementation that's easy to use on embedded and PC-based systems.
 
+# Table of Contents
+
+- [State Machine Design in C++](#state-machine-design-in-c)
+- [Table of Contents](#table-of-contents)
+- [Preface](#preface)
+  - [Related repositories](#related-repositories)
+- [Introduction](#introduction)
+  - [Background](#background)
+  - [Why use a state machine?](#why-use-a-state-machine)
+- [State machine design](#state-machine-design)
+  - [Internal and external events](#internal-and-external-events)
+  - [Event data](#event-data)
+  - [State transitions](#state-transitions)
+- [StateMachine class](#statemachine-class)
+- [Motor example](#motor-example)
+- [State functions](#state-functions)
+- [State map](#state-map)
+- [Transition map](#transition-map)
+- [State engine](#state-engine)
+- [Generating events](#generating-events)
+  - [External event no heap data](#external-event-no-heap-data)
+  - [Hiding and eliminating heap usage](#hiding-and-eliminating-heap-usage)
+- [State machine inheritance](#state-machine-inheritance)
+  - [Base class external event functions](#base-class-external-event-functions)
+- [State function inheritance](#state-function-inheritance)
+- [StateMachine compact class](#statemachine-compact-class)
+- [Multithread safety](#multithread-safety)
+- [Alternatives](#alternatives)
+- [Benefits](#benefits)
+- [References](#references)
+
+
+# Preface
+
 Originally published on CodeProject at: <a href="https://www.codeproject.com/Articles/1087619/State-Machine-Design-in-Cplusplus"><strong>State Machine Design in C++</strong></a>
 
 Based on original design published in C\C++ Users Journal (Dr. Dobb's) at: <a href="http://www.drdobbs.com/cpp/state-machine-design-in-c/184401236"><strong>State Machine Design in C++</strong></a>
+
+## Related repositories
 
 See related compact state machine Git project <a href="https://github.com/endurodave/StateMachineCompact"><strong>here</strong></a>.
 
@@ -20,7 +56,7 @@ See related compact state machine Git project <a href="https://github.com/enduro
 	<li><a href="https://github.com/endurodave/StateMachineWithModernDelegates">C++ State Machine with Modern Asynchronous Multicast Delegates</a> - A framework combining C++ state machines with modern asynchronous multicast delegates.</li>
 </ul>
 
-<h2>Introduction&nbsp;</h2>
+# Introduction
 
 <p>In 2000, I wrote an article entitled &quot;<em>State Machine Design in C++</em>&quot; for C/C++ Users Journal (R.I.P.). Interestingly, that old article is still available and (at the time of writing this article) the #1 hit on Google when searching for C++ state machine. The article was written over 15 years ago, but I continue to use the basic idea on numerous projects. It&#39;s compact, easy to understand and, in most cases, has just enough features to accomplish what I need.&nbsp;</p>
 
@@ -62,7 +98,7 @@ See related compact state machine Git project <a href="https://github.com/enduro
 
 <p>The article is not a tutorial on the best design decomposition practices for software state machines. I&#39;ll be focusing on state machine code and simple examples with just enough complexity to facilitate understanding the features and usage.&nbsp;</p>
 
-<h2>Background&nbsp;</h2>
+## Background
 
 <p>A common design technique in the repertoire of most programmers is the venerable finite state machine (FSM). Designers use this programming construct to break complex problems into manageable states and state transitions. There are innumerable ways to implement a state machine.&nbsp;</p>
 
@@ -83,7 +119,7 @@ switch (currentState) {
 
 <p>The first problem revolves around controlling what state transitions are valid and which ones are invalid. There is no way to enforce the state transition rules. Any transition is allowed at any time, which is not particularly desirable. For most designs, only a few transition patterns are valid. Ideally, the software design should enforce these predefined state sequences and prevent the unwanted transitions. Another problem arises when trying to send data to a specific state. Since the entire state machine is located within a single function, sending additional data to any given state proves difficult. And lastly these designs are rarely suitable for use in a multithreaded system. The designer must ensure the state machine is called from a single thread of control.</p>
 
-<h2>Why use a state machine?</h2>
+## Why use a state machine?
 
 <p>Implementing code using a state machine is an extremely handy design technique for solving complex engineering problems. State machines break down the design into a series of steps, or what are called states in state-machine lingo. Each state performs some narrowly defined task. Events, on the other hand, are the stimuli, which cause the state machine to move, or transition, between states.&nbsp;</p>
 
@@ -146,7 +182,9 @@ switch (currentState) {
 
 <p>In short, using a state machine captures and enforces complex interactions, which might otherwise be difficult to convey and implement.</p>
 
-<h2>Internal and external events</h2>
+# State machine design
+
+## Internal and external events
 
 <p>As I mentioned earlier, an event is the stimulus that causes a state machine to transition between states. For instance, a button press could be an event. Events can be broken out into two categories: external and internal. The external event, at its most basic level, is a function call into a state-machine object. These functions are public and are called from the outside or from code external to the state-machine object. Any thread or task within a system can generate an external event. If the external event function call causes a state transition to occur, the state will execute synchronously within the caller&#39;s thread of control. An internal event, on the other hand, is self-generated by the state machine itself during state execution.</p>
 
@@ -154,7 +192,7 @@ switch (currentState) {
 
 <p>Once the external event starts the state machine executing, it cannot be interrupted by another external event until the external event and all internal events have completed execution if locks are used. This run to completion model provides a multithread-safe environment for the state transitions. Semaphores or mutexes can be used in the state machine engine to block other threads that might be trying to be simultaneously access the same object. See source code function <code>ExternalEvent()</code> comments for where the locks go.&nbsp;</p>
 
-<h2>Event data</h2>
+## Event data
 
 <p>When an event is generated, it can optionally attach event data to be used by the state function during execution. Once the state has completed execution, the event data is considered used up and must be deleted. Therefore, any event data sent to a state machine must be created on the heap, via operator new, so that the state machine can delete it once used. In addition, for our particular implementation the event data must inherit from the <code>EventData </code>base class. This gives the state machine engine a common base class for which to delete all event data.</p>
 
@@ -167,13 +205,13 @@ public:
 
 <p>The state machine implementation now has a build option that removes the requirement to create external event data on the heap. See the <strong>External event no heap data</strong>&nbsp;section for details.&nbsp;</p>
 
-<h2>State transitions</h2>
+## State transitions
 
 <p>When an external event is generated, a lookup is performed to determine the state transition course of action. There are three possible outcomes to an event: new state, event ignored, or cannot happen. A new state causes a transition to a new state where it is allowed to execute. Transitions to the existing state are also possible, which means the current state is re-executed. For an ignored event, no state executes. However, the event data, if any, is deleted. The last possibility, cannot happen, is reserved for situations where the event is not valid given the current state of the state machine. If this occurs, the software faults.</p>
 
 <p>In this implementation, internal events are not required to perform a validating transition lookup. The state transition is assumed to be valid. You could check for both valid internal and external event transitions, but in practice, this just takes more storage space and generates busywork for very little benefit. The real need for validating transitions lies in the asynchronous, external events where a client can cause an event to occur at an inappropriate time. Once the state machine is executing, it cannot be interrupted. It is under the control of the class&#39;s private implementation, thereby making transition checks unnecessary. This gives the designer the freedom to change states, via internal events, without the burden of updating transition tables.</p>
 
-<h2>StateMachine class</h2>
+# StateMachine class
 
 <p>Two base classes are necessary when creating your own state machine: <code>StateMachine </code>and <code>EventData</code>. A class inherits from <code>StateMachine </code>to obtain the necessary mechanisms to support state transitions and event handling. The <code>StateMachine </code>header also contains various preprocessor multiline macros to ease implementation of the state machine (explained later in the article). To send unique data to the state functions, the structure must inherit from the <code>EventData </code>base class.</p>
 
@@ -223,7 +261,7 @@ virtual const StateMapRowEx* GetStateMapEx() = 0;</pre>
 
 <p>The <code>GetStateMap() </code>and <code>GetStateMapEx() </code>functions return an array of <code>StateMapRow </code>or <code>StateMapRowEx </code>instances which will be retrieved by the state engine when appropriate. The inheriting class must return an array with one of these functions. If the state machine only has state functions, <code>GetStateMap()</code> is used. If guard/entry/exit features are required, the <code>GetStateMapEx() i</code>s used. The other unused version must return <code>NULL</code>. However, multiline macros are provided to implement these functions for us, as I will demonstrate shortly.</p>
 
-<h2>Motor example</h2>
+# Motor example
 
 <p><code>Motor </code>and <code>MotorNM </code>classes are examples of how to use <code>StateMachine</code>. <code>MotorNM </code>(No Macros) exactly matches the <code>Motor</code> design without relying upon macros. This allows viewing all the macro-expanded code for ease of understanding. However, once up to speed I find that the macros greatly simplify usage by hiding the required source machinery.&nbsp;</p>
 
@@ -352,7 +390,7 @@ private:
 	<li>Create one transition map lookup table for each external event using the <code>TRANSITION_MAP</code> macros.&nbsp;</li>
 </ol>
 
-<h2>State functions</h2>
+# State functions
 
 <p>State functions implement each state &mdash; one state function per state-machine state. In this implementation, all state functions must adhere this state-function signature, which is as follows:</p>
 
@@ -433,7 +471,7 @@ enum States
 
 <p>It is important that the enumeration order match the order provided within the state map. This way, a state enumeration is tied to a particular state function call. <code>EVENT_IGNORED</code> and <code>CANNOT_HAPPEN </code>are two other constants used in conjunction with these state enumerations. <code>EVENT_IGNORED </code>tells the state engine not to execute any state, just return and do nothing. <code>CANNOT_HAPPEN </code>tells the state engine to fault. This abnormal catastrophic failure condition is never supposed to occur.</p>
 
-<h2>State map</h2>
+# State map
 
 <p>The state-machine engine knows which state function to call by using the state map. The state map maps the <code>m_currentState</code> variable to a specific state function. For instance, if <code>m_currentState</code> is 2, then the third state-map function pointer entry will be called (counting from zero). The state map table is created using these three macros:</p>
 
@@ -532,7 +570,7 @@ public:
 
 <p><code>GuardCondition&lt;&gt;</code>, <code>EntryAction&lt;&gt;</code> and<code> ExitAction&lt;&gt;</code> classes also exist and their role is the same &ndash; typecast state machine and event data then call the action member function. Minor variations exist with the template arguments. The <code>GuardCondition&lt;&gt; </code>class <code>Func </code>template parameter changes slightly and returns a <code>BOOL</code>. <code>ExitAction&lt;&gt;</code> doesn&#39;t have a <code>Data </code>template argument.&nbsp;</p>
 
-<h2>Transition map</h2>
+# Transition map
 
 <p>The last detail to attend to are the state transition rules. How does the state machine know what transitions should occur? The answer is the transition map. A transition map is lookup table that maps the <code>m_currentState </code>variable to a state enum constant. Every external event has a transition map table created with three macros:</p>
 
@@ -585,7 +623,7 @@ TRANSITION_MAP_ENTRY (ST_STOP)         // ST_START</pre>
 
 <p><code>END_TRANSITION_MAP </code>terminates the map. The argument to this end macro is the event data, if any. <code>Halt()</code> has no event data so the argument is <code>NULL</code>, but<code> ChangeSpeed()</code> has data so it is passed in here.</p>
 
-<h2>State engine</h2>
+# State engine
 
 <p>The state engine executes the state functions based upon events generated. The transition map is an array of <code>StateMapRow</code> instances indexed by the <code>m_currentState </code>variable. When the <code>StateEngine()</code> function executes, it looks up a <code>StateMapRow </code>or <code>StateMapRowEx </code>array by calling <code>GetStateMap()</code> or <code>GetStateMapEx()</code>:</p>
 
@@ -662,7 +700,7 @@ void StateMachine::StateEngine(const StateMapRow* const pStateMap)
 	<li>Call the state action function for the new state. The new state is now the current state.&nbsp;</li>
 </ol>
 
-<h2>Generating events</h2>
+# Generating events
 
 <p>At this point, we have a working state machine. Let&#39;s see how to generate events to it. An external event is generated by creating the event data structure on the heap using new, assigning the structure member variables, and calling the external event function. The following code fragment shows how a synchronous call is made.&nbsp;</p>
 
@@ -683,7 +721,7 @@ MotorData* data = new MotorData();
 data-&gt;speed = 100;
 InternalEvent(ST_CHANGE_SPEED, data);</pre>
 
-<h3>External Event No Heap Data</h3>
+## External event no heap data
 
 <p>The state machine has the <code>EXTERNAL_EVENT_NO_HEAP_DATA</code> build option that changes the behavior of <code>ExternalEvent()</code>. When defined, just pass in data on the stack instead of creating external event data on the heap as shown below. This option relieves the caller from having to remember to create event data structure dynamically.&nbsp;</p>
 
@@ -699,7 +737,7 @@ MotorData* data = new MotorData();
 data-&gt;speed = 100;
 InternalEvent(ST_CHANGE_SPEED, data);</pre>
 
-<h2>Hiding and eliminating heap usage</h2>
+## Hiding and eliminating heap usage
 
 <p>The <code>SetSpeed()</code> function takes a <code>MotorData </code>argument that the client must create on the heap. Alternatively, the class can hide the heap usage from the caller. The change is as simple as creating the <code>MotorData </code>instance within the <code>SetSpeed()</code> function. This way, the caller isn&rsquo;t required to create a dynamic instance:</p>
 
@@ -732,7 +770,7 @@ public:
 
 <p>For more information on xallocator, see the article &quot;<strong><a href="http://www.codeproject.com/Articles/1084801/Replace-malloc-free-with-a-Fast-Fixed-Block-Memory">Replace malloc/free with a Fast Fixed Block Memory Allocator</a></strong>&quot;.&nbsp;</p>
 
-<h2>State machine inheritance</h2>
+# State machine inheritance
 
 <p>Inheriting states allows common states to reside in a base class for sharing with inherited classes. <code>StateMachine </code>supports state machine inheritance with minimal effort. I&rsquo;ll use an example to illustrate.</p>
 
@@ -832,7 +870,7 @@ GUARD_DEFINE(CentrifugeTest, GuardStartTest, NoEventData)
         return FALSE;   // Centrifuge spinning. Can&#39;t start test.
 }</pre>
 
-<h3>Base Class External Event Functions</h3>
+## Base class external event functions
 
 <p>When using state machine inheritance, it&rsquo;s not just the most-derived class that may define external event functions. The base and intermediary classes may also use transition maps. A parent state machine doesn&rsquo;t have awareness of child classes. One or more subclass state machine hierarchical levels may exist each adding more states. Therefore parent classes of the most-derived state machine utilize a <em>partial</em> transition map, that is, the state transition map only handles the states that are known to the parent class. Any events generated while the current state is outside the maximum parent state&nbsp;enumeration range must be handled by the <code>SUBCLASS_TRANSITION </code>macro which is placed directly above the transition map as shown below.</p>
 
@@ -873,7 +911,7 @@ void SelfTest::Cancel()
 
 <p>The state machine inheritance technique expressed here does not implement a Hierarchical State Machine (HSM). An HSM has different semantics and behaviors including, among other things, a hierarchical event processing model. This feature explained here offers code reuse by factoring common states into a base class, but the state machine is still considered a traditional FSM.</p>
 
-<h2>State function inheritance</h2>
+# State function inheritance
 
 <p>State functions can be overridden in the derived class. The derived class may call the base implementation if so desired. In this case, <code>SelfTest </code>declares and defines an Idle state:</p>
 
@@ -903,7 +941,7 @@ STATE_DEFINE(CentrifugeTest,   Idle, NoEventData)
 
 <p>In the same way a state function is overridden, a derived class may also override a guard/entry/exit function. Within the override, you decide whether to call the base implementation or not on a case-by-case basis.&nbsp;</p>
 
-<h2>StateMachine compact class</h2>
+# StateMachine compact class
 
 <p>If the <code>StateMachine </code>implementation is too large or too slow due to the virtual function and typecasting, then the compact version is available at the expense of no type checking of the member function pointers. The compact version is only 68 bytes (on Windows release build) vs. 448 bytes on the non-compact version. See <em>StateMachineCompact.zip</em> for the source files.&nbsp;</p>
 
@@ -916,7 +954,7 @@ reinterpret_cast&lt;StateFunc&gt;(stateFunc)</pre>
 
 <p>On most projects, I&rsquo;m not counting CPU instructions for the state execution and a few extra bytes of storage isn&rsquo;t critical. The state machine portion of my projects have never been the bottleneck. So I prefer the enhanced error checking of the non-compact version.&nbsp;</p>
 
-<h2>Multithread safety</h2>
+# Multithread safety
 
 <p>To prevent preemption by another thread when the state machine is in the process of execution, the <code>StateMachine </code>class can use locks within the <code>ExternalEvent()</code> function. Before the external event is allowed to execute, a semaphore can be locked. When the external event and all internal events have been processed, the software lock is released, allowing another external event to enter the state machine instance.</p>
 
@@ -924,17 +962,17 @@ reinterpret_cast&lt;StateFunc&gt;(stateFunc)</pre>
 
 <p>See the article &quot;<strong><a href="http://www.codeproject.com/Articles/1156423/Cplusplus-State-Machine-with-Threads">C++ State Machine with Threads</a></strong>&quot; for a complete multithreaded example&nbsp;using the state machine presented here.</p>
 
-<h2>Alternatives</h2>
+# Alternatives
 
 <p>Occasionally you need something more powerful to capture the behavior of a system using events and states. The version presented here is a variation of a conventional FSM. A true Hierarchical State Machine (HSM), on the other hand, can significantly simplify the solution to certain types of problems. Many good HSM projects exist ready for you to explore. But sometimes a simple FSM is all that you need.&nbsp;</p>
 
-<h2>Benefits</h2>
+# Benefits
 
 <p>Implementing a state machine using this method as opposed to the old switch statement style may seem like extra effort. However, the payoff is in a more robust design that is capable of being employed uniformly over an entire multithreaded system. Having each state in its own function provides easier reading than a single huge switch statement, and allows unique event data to be sent to each state. In addition, validating state transitions prevents client misuse by eliminating the side effects caused by unwanted state transitions.</p>
 
 <p>I&rsquo;ve used variations of this code for self-test engines, a gesture recognition library, user interface wizards, and machine automation, among other projects. This implementation offers easy use for the inheriting classes. With the macros it lets you just &quot;turn the crank&quot; without much thought given to the underlying mechanics of how the state engine operates. This allows you more time to concentrate on more important things, like the design of the state transitions and state function implementation.</p>
 
-<h2>References</h2>
+# References
 
 <ul>
 	<li><a href="https://github.com/endurodave/StateMachineWithThreads">C++ State Machine with Threads</a> - by David Lafreniere</li>
