@@ -16,9 +16,9 @@ A compact C++ finite state machine (FSM) implementation that's easy to use on em
   - [State transitions](#state-transitions)
 - [StateMachine class](#statemachine-class)
 - [Motor example](#motor-example)
-- [State functions](#state-functions)
-- [State map](#state-map)
-- [Transition map](#transition-map)
+  - [State functions](#state-functions)
+  - [State map](#state-map)
+  - [Transition map](#transition-map)
 - [State engine](#state-engine)
 - [Generating events](#generating-events)
   - [External event no heap data](#external-event-no-heap-data)
@@ -390,7 +390,7 @@ private:
 	<li>Create one transition map lookup table for each external event using the <code>TRANSITION_MAP</code> macros.&nbsp;</li>
 </ol>
 
-# State functions
+## State functions
 
 <p>State functions implement each state &mdash; one state function per state-machine state. In this implementation, all state functions must adhere this state-function signature, which is as follows:</p>
 
@@ -471,7 +471,7 @@ enum States
 
 <p>It is important that the enumeration order match the order provided within the state map. This way, a state enumeration is tied to a particular state function call. <code>EVENT_IGNORED</code> and <code>CANNOT_HAPPEN </code>are two other constants used in conjunction with these state enumerations. <code>EVENT_IGNORED </code>tells the state engine not to execute any state, just return and do nothing. <code>CANNOT_HAPPEN </code>tells the state engine to fault. This abnormal catastrophic failure condition is never supposed to occur.</p>
 
-# State map
+## State map
 
 <p>The state-machine engine knows which state function to call by using the state map. The state map maps the <code>m_currentState</code> variable to a specific state function. For instance, if <code>m_currentState</code> is 2, then the third state-map function pointer entry will be called (counting from zero). The state map table is created using these three macros:</p>
 
@@ -570,7 +570,7 @@ public:
 
 <p><code>GuardCondition&lt;&gt;</code>, <code>EntryAction&lt;&gt;</code> and<code> ExitAction&lt;&gt;</code> classes also exist and their role is the same &ndash; typecast state machine and event data then call the action member function. Minor variations exist with the template arguments. The <code>GuardCondition&lt;&gt; </code>class <code>Func </code>template parameter changes slightly and returns a <code>BOOL</code>. <code>ExitAction&lt;&gt;</code> doesn&#39;t have a <code>Data </code>template argument.&nbsp;</p>
 
-# Transition map
+## Transition map
 
 <p>The last detail to attend to are the state transition rules. How does the state machine know what transitions should occur? The answer is the transition map. A transition map is lookup table that maps the <code>m_currentState </code>variable to a state enum constant. Every external event has a transition map table created with three macros:</p>
 
