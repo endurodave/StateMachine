@@ -26,4 +26,4 @@ jobs:
       run: cmake --build Build --config Release  # Build the project using CMake with Release configuration
 
     - name: Run StateMachineApp
-      run: .\Build\Release\SStateMachineApp.exe  # Run the built executable (adjust path for MSBuild)
+      run: .\Build\Release\StateMachineApp.exe  # Run the built executable (adjust path for MSBuild)
