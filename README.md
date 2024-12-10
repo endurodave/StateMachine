@@ -35,6 +35,7 @@ A compact C++ finite state machine (FSM) implementation that's easy to use on em
 - [Multithread safety](#multithread-safety)
 - [Alternatives](#alternatives)
 - [Benefits](#benefits)
+- [Star History](#star-history)
 - [References](#references)
 
 
@@ -976,6 +977,12 @@ reinterpret_cast&lt;StateFunc&gt;(stateFunc)</pre>
 <p>Implementing a state machine using this method as opposed to the old switch statement style may seem like extra effort. However, the payoff is in a more robust design that is capable of being employed uniformly over an entire multithreaded system. Having each state in its own function provides easier reading than a single huge switch statement, and allows unique event data to be sent to each state. In addition, validating state transitions prevents client misuse by eliminating the side effects caused by unwanted state transitions.</p>
 
 <p>I&rsquo;ve used variations of this code for self-test engines, a gesture recognition library, user interface wizards, and machine automation, among other projects. This implementation offers easy use for the inheriting classes. With the macros it lets you just &quot;turn the crank&quot; without much thought given to the underlying mechanics of how the state engine operates. This allows you more time to concentrate on more important things, like the design of the state transitions and state function implementation.</p>
+
+# Star History
+
+Find this repository useful? Consider giving it a star!
+
+[![Star History Chart](https://api.star-history.com/svg?repos=endurodave/StateMachine&type=Date)](https://star-history.com/#endurodave/StateMachine&Date)
 
 # References
 
