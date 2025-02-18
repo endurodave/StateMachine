@@ -35,7 +35,6 @@ A compact C++ finite state machine (FSM) implementation that's easy to use on em
 - [Multithread safety](#multithread-safety)
 - [Alternatives](#alternatives)
 - [Benefits](#benefits)
-- [Star History](#star-history)
 - [References](#references)
 
 
@@ -54,9 +53,9 @@ See related compact state machine Git project <a href="https://github.com/enduro
 <p>See other related GitHub repositories:</p>
 
 <ul>
-	<li><a href="https://github.com/endurodave/AsyncStateMachine">Asynchronous State Machine in C++</a> - An asynchronous C++ state machine implemented using an asynchronous delegate library.</li>
 	<li><a href="https://github.com/endurodave/C_StateMachine">State Machine Design in C</a> - A compact C finite state machine (FSM) implementation.</li>
    	<li><a href="https://github.com/endurodave/StateMachineCompact">State Machine Design in C++ (Compact)</a> - A compact C++ finite state machine (FSM) implementation.</li>
+    <li><a href="https://github.com/endurodave/AsyncStateMachine">Asynchronous State Machine in C++</a> - An asynchronous C++ state machine implemented using an asynchronous delegate library.</li>
 	<li><a href="https://github.com/endurodave/StateMachineWithThreads">C++ State Machine with Threads</a> - A framework combining C++ state machines and multicast asynchronous callbacks.</li>
 	<li><a href="https://github.com/endurodave/StateMachineWithDelegates">C++ State Machine with Asynchronous Multicast Delegates</a> - A framework combining C++ state machines with asynchronous multicast delegates.</li>
 	<li><a href="https://github.com/endurodave/StateMachineWithModernDelegates">C++ State Machine with Modern Asynchronous Multicast Delegates</a> - A framework combining C++ state machines with modern asynchronous multicast delegates.</li>
@@ -977,12 +976,6 @@ reinterpret_cast&lt;StateFunc&gt;(stateFunc)</pre>
 <p>Implementing a state machine using this method as opposed to the old switch statement style may seem like extra effort. However, the payoff is in a more robust design that is capable of being employed uniformly over an entire multithreaded system. Having each state in its own function provides easier reading than a single huge switch statement, and allows unique event data to be sent to each state. In addition, validating state transitions prevents client misuse by eliminating the side effects caused by unwanted state transitions.</p>
 
 <p>I&rsquo;ve used variations of this code for self-test engines, a gesture recognition library, user interface wizards, and machine automation, among other projects. This implementation offers easy use for the inheriting classes. With the macros it lets you just &quot;turn the crank&quot; without much thought given to the underlying mechanics of how the state engine operates. This allows you more time to concentrate on more important things, like the design of the state transitions and state function implementation.</p>
-
-# Star History
-
-Find this repository useful? Consider giving it a star!
-
-[![Star History Chart](https://api.star-history.com/svg?repos=endurodave/StateMachine&type=Date)](https://star-history.com/#endurodave/StateMachine&Date)
 
 # References
 
