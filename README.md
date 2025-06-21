@@ -12,6 +12,7 @@ A compact C++ finite state machine (FSM) implementation that's easy to use on em
 - [Table of Contents](#table-of-contents)
 - [Preface](#preface)
   - [Related repositories](#related-repositories)
+- [Getting Started](#getting-started)
 - [Introduction](#introduction)
   - [Background](#background)
   - [Why use a state machine?](#why-use-a-state-machine)
@@ -46,20 +47,22 @@ Based on original design published in C\C++ Users Journal (Dr. Dobb's) at: <a hr
 
 ## Related repositories
 
-See related compact state machine Git project <a href="https://github.com/endurodave/StateMachineCompact"><strong>here</strong></a>.
-
-<p><a href="https://www.cmake.org/">CMake</a>&nbsp;is used to create the build files. CMake is free and open-source software. Windows, Linux and other toolchains are supported. See the <strong>CMakeLists.txt </strong>file for more information.</p>
-
-<p>See other related GitHub repositories:</p>
-
 <ul>
-	<li><a href="https://github.com/endurodave/C_StateMachine">State Machine Design in C</a> - A compact C finite state machine (FSM) implementation.</li>
+	<li><a href="https://github.com/endurodave/C_StateMachine">State Machine Design in C</a> - A compact C language finite state machine (FSM) implementation.</li>
    	<li><a href="https://github.com/endurodave/StateMachineCompact">State Machine Design in C++ (Compact)</a> - A compact C++ finite state machine (FSM) implementation.</li>
-    <li><a href="https://github.com/endurodave/AsyncStateMachine">Asynchronous State Machine in C++</a> - An asynchronous C++ state machine implemented using an asynchronous delegate library.</li>
-	<li><a href="https://github.com/endurodave/StateMachineWithThreads">C++ State Machine with Threads</a> - A framework combining C++ state machines and multicast asynchronous callbacks.</li>
-	<li><a href="https://github.com/endurodave/StateMachineWithDelegates">C++ State Machine with Asynchronous Multicast Delegates</a> - A framework combining C++ state machines with asynchronous multicast delegates.</li>
-	<li><a href="https://github.com/endurodave/StateMachineWithModernDelegates">C++ State Machine with Modern Asynchronous Multicast Delegates</a> - A framework combining C++ state machines with modern asynchronous multicast delegates.</li>
+	<li><a href="https://github.com/endurodave/StateMachineWithThreads">C++ State Machine with Threads</a> - A C++ state machine integrated with an asynchronous callback library.</li>
+	<li><a href="https://github.com/endurodave/StateMachineWithModernDelegates">C++ State Machine with Delegates</a> - A C++ state machine integrated with the <a href="https://github.com/endurodave/DelegateMQ">DelegateMQ</a> asynchronous delegate library.</li>
+    <li><a href="https://github.com/endurodave/AsyncStateMachine">Asynchronous State Machine in C++</a> - An asynchronous C++ state machine integrated with the <a href="https://github.com/endurodave/DelegateMQ">DelegateMQ</a> asynchronous delegate library.</li>
 </ul>
+
+# Getting Started
+
+[CMake](https://cmake.org/) is used to create the project build files on any Windows or Linux machine. The state machine source code works on any C++ compiler on any platform.
+
+1. Clone the repository.
+2. From the repository root, run the following CMake command:   
+   `cmake -B Build .`
+3. Build and run the project within the `Build` directory. 
 
 # Introduction
 
