@@ -47,13 +47,15 @@ Based on original design published in C\C++ Users Journal (Dr. Dobb's) at: <a hr
 
 ## Related repositories
 
-<ul>
-	<li><a href="https://github.com/endurodave/C_StateMachine">State Machine Design in C</a> - A compact C language finite state machine (FSM) implementation.</li>
-   	<li><a href="https://github.com/endurodave/StateMachineCompact">State Machine Design in C++ (Compact)</a> - A compact C++ finite state machine (FSM) implementation.</li>
-	<li><a href="https://github.com/endurodave/StateMachineWithThreads">C++ State Machine with Threads</a> - A C++ state machine integrated with an asynchronous callback library.</li>
-	<li><a href="https://github.com/endurodave/StateMachineWithModernDelegates">C++ State Machine with Delegates</a> - A C++ state machine integrated with the <a href="https://github.com/endurodave/DelegateMQ">DelegateMQ</a> asynchronous delegate library.</li>
-    <li><a href="https://github.com/endurodave/AsyncStateMachine">Asynchronous State Machine in C++</a> - An asynchronous C++ state machine integrated with the <a href="https://github.com/endurodave/DelegateMQ">DelegateMQ</a> asynchronous delegate library.</li>
-</ul>
+The following repositories offer various implementations of finite state machines, ranging from compact single-threaded versions to advanced asynchronous frameworks utilizing the Signal-Slot pattern.
+
+| Project | Description |
+| :--- | :--- |
+| [**State Machine Design in C**](https://github.com/endurodave/C_StateMachine) | A compact C language finite state machine (FSM) implementation. |
+| [**State Machine Design in C++ (Compact)**](https://github.com/endurodave/StateMachineCompact) | A compact C++ finite state machine (FSM) implementation. |
+| [**C++ State Machine with Threads**](https://github.com/endurodave/StateMachineWithThreads) | A C++ state machine integrated with an asynchronous callback library. |
+| [**C++ State Machine with Signals**](https://github.com/endurodave/cpp-signal-slot-fsm) | A thread-safe C++ state machine demonstrating **Signal-Slot communication** and RAII-managed asynchronous event marshaling via DelegateMQ. |
+| [**Asynchronous State Machine in C++**](https://github.com/endurodave/AsyncStateMachine) | A **native asynchronous state machine** implemented as an active object, where every transition is dispatched and executed within its own thread of control. |
 
 # Getting Started
 
