@@ -53,9 +53,7 @@ The following repositories offer various implementations of finite state machine
 | :--- | :--- |
 | [**State Machine Design in C**](https://github.com/endurodave/C_StateMachine) | A compact C language finite state machine (FSM) implementation. |
 | [**State Machine Design in C++ (Compact)**](https://github.com/endurodave/StateMachineCompact) | A compact C++ finite state machine (FSM) implementation. |
-| [**C++ State Machine with Threads**](https://github.com/endurodave/StateMachineWithThreads) | A C++ state machine integrated with an asynchronous callback library. |
-| [**C++ State Machine with Signals**](https://github.com/endurodave/cpp-signal-slot-fsm) | A thread-safe C++ state machine demonstrating **Signal-Slot communication** and RAII-managed asynchronous event marshaling via DelegateMQ. |
-| [**Asynchronous State Machine in C++**](https://github.com/endurodave/AsyncStateMachine) | A **native asynchronous state machine** implemented as an active object, where every transition is dispatched and executed within its own thread of control. |
+  | [**Delegate FSM**](https://github.com/endurodave/delegate-fsm) | A modern C++ state machine using delegates for state registration and async active-object dispatch. |
 
 # Getting Started
 
