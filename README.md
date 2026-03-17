@@ -47,13 +47,12 @@ Based on original design published in C\C++ Users Journal (Dr. Dobb's) at: <a hr
 
 ## Related repositories
 
-The following repositories offer various implementations of finite state machines, ranging from compact single-threaded versions to advanced asynchronous frameworks utilizing the Signal-Slot pattern.
-
 | Project | Description |
 | :--- | :--- |
+| [**Async FSM**](https://github.com/endurodave/async-fsm) | A compact async C++ finite state machine providing RAII-safe asynchronous dispatch and pub/sub signals. |
 | [**State Machine Design in C**](https://github.com/endurodave/C_StateMachine) | A compact C language finite state machine (FSM) implementation. |
 | [**State Machine Design in C++ (Compact)**](https://github.com/endurodave/StateMachineCompact) | A compact C++ finite state machine (FSM) implementation. |
-  | [**Delegate FSM**](https://github.com/endurodave/delegate-fsm) | A modern C++ state machine using delegates for state registration and async active-object dispatch. |
+
 
 # Getting Started
 
