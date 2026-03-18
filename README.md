@@ -47,9 +47,11 @@ Based on original design published in C\C++ Users Journal (Dr. Dobb's) at: <a hr
 
 ## Related repositories
 
+Related repositories containing alternative state machine implementations.
+
 | Project | Description |
 | :--- | :--- |
-| [**Async FSM**](https://github.com/endurodave/async-fsm) | A compact async C++ finite state machine providing RAII-safe asynchronous dispatch and pub/sub signals. |
+| [**Active-Object State Machine in C++**](https://github.com/endurodave/active-fsm) | A compact active-object C++ finite state machine providing RAII-safe asynchronous dispatch and pub/sub signals. |
 | [**State Machine Design in C**](https://github.com/endurodave/C_StateMachine) | A compact C language finite state machine (FSM) implementation. |
 | [**State Machine Design in C++ (Compact)**](https://github.com/endurodave/StateMachineCompact) | A compact C++ finite state machine (FSM) implementation. |
 
