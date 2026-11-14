@@ -1,0 +1,21 @@
+{
+  "name": "StateMachine",
+  "version": "1.1.0",
+  "description": "Compact C++ finite state machine for embedded systems. Table-driven, guard/entry/exit actions, typed event data, no dependencies.",
+  "keywords": ["state machine", "fsm", "hsm", "embedded", "cpp", "event driven"],
+  "repository": { "type": "git", "url": "https://github.com/endurodave/StateMachine.git" },
+  "authors": [{ "name": "David Lafreniere", "url": "https://github.com/endurodave", "maintainer": true }],
+  "license": "MIT",
+  "homepage": "https://github.com/endurodave/StateMachine",
+  "frameworks": "*",
+  "platforms": "*",
+  "headers": "StateMachine.h",
+  "export": {
+    "include": ["StateMachine.cpp", "StateMachine.h", "Fault.cpp", "Fault.h", "DataTypes.h", "LICENSE", "README.md", "library.json"]
+  },
+  "build": {
+    "srcDir": ".",
+    "includeDir": ".",
+    "srcFilter": ["-<*>", "+<StateMachine.cpp>", "+<Fault.cpp>"]
+  }
+}

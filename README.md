@@ -1,7 +1,7 @@
-![License MIT](https://img.shields.io/github/license/BehaviorTree/BehaviorTree.CPP?color=blue)
-[![conan Ubuntu](https://github.com/endurodave/StateMachine/actions/workflows/cmake_ubuntu.yml/badge.svg)](https://github.com/endurodave/StateMachine/actions/workflows/cmake_ubuntu.yml)
-[![conan Ubuntu](https://github.com/endurodave/StateMachine/actions/workflows/cmake_clang.yml/badge.svg)](https://github.com/endurodave/StateMachine/actions/workflows/cmake_clang.yml)
-[![conan Windows](https://github.com/endurodave/StateMachine/actions/workflows/cmake_windows.yml/badge.svg)](https://github.com/endurodave/StateMachine/actions/workflows/cmake_windows.yml)
+![License MIT](https://img.shields.io/github/license/endurodave/StateMachine?color=blue)
+[![Ubuntu](https://github.com/endurodave/StateMachine/actions/workflows/cmake_ubuntu.yml/badge.svg)](https://github.com/endurodave/StateMachine/actions/workflows/cmake_ubuntu.yml)
+[![Clang](https://github.com/endurodave/StateMachine/actions/workflows/cmake_clang.yml/badge.svg)](https://github.com/endurodave/StateMachine/actions/workflows/cmake_clang.yml)
+[![Windows](https://github.com/endurodave/StateMachine/actions/workflows/cmake_windows.yml/badge.svg)](https://github.com/endurodave/StateMachine/actions/workflows/cmake_windows.yml)
 
 # State Machine Design in C++
 A compact C++ finite state machine (FSM) implementation that's easy to use on embedded and PC-based systems.
@@ -64,6 +64,8 @@ Related repositories containing alternative state machine implementations.
 2. From the repository root, run the following CMake command:   
    `cmake -B Build .`
 3. Build and run the project within the `Build` directory. 
+
+**PlatformIO:** add `lib_deps = StateMachine` to `platformio.ini`. The library builds `StateMachine.cpp` and `Fault.cpp`; the Motor, Player and Centrifuge demos aren't included. RTTI is optional: with RTTI, sending a state function the wrong event data type faults at run time; without it (`-fno-rtti`, the Arduino and ESP32 default) that check is skipped. A C++ standard library is required, so 8-bit AVR boards such as the Uno aren't supported.
 
 # Introduction
 
@@ -183,7 +185,7 @@ switch (currentState) {
 
 <p>To graphically illustrate the states and events, we use a state diagram. Figure 1 below shows the state transitions for the motor control class. A box denotes a state and a connecting arrow indicates the event transitions. Arrows with the event name listed are external events, whereas unadorned lines are considered internal events. (I cover the differences between internal and external events later in the article.)</p>
 
-<p style="text-align: center"><img alt="" src="Motor.png" /><br />
+<p style="text-align: center"><img alt="" src="https://raw.githubusercontent.com/endurodave/StateMachine/master/Motor.png" /><br />
 &nbsp;<br />
 <strong>Figure 1: Motor state diagram&nbsp;</strong></p>
 
@@ -785,7 +787,7 @@ public:
 
 <p>Some systems have a built in self-test mode where the software executes a series of test steps to determine if the system is operational. In this example, each self-test has common states to handle Idle, Completed and Failed states. Using inheritance, a base class contains the shared states. The classes <code>SelfTest</code> and <code>CentrifugeTest </code>demonstrate the concept. The state diagram is shown below.&nbsp;</p>
 
-<p style="text-align: center"><img alt="" src="CentrifugeTest.png" /></p>
+<p style="text-align: center"><img alt="" src="https://raw.githubusercontent.com/endurodave/StateMachine/master/CentrifugeTest.png" /></p>
 
 <p style="text-align: center"><strong>Figure 2: CentrifugeTest state diagram</strong></p>
 

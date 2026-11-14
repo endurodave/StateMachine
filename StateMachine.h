@@ -6,6 +6,15 @@
 #include <typeinfo>
 #include "Fault.h"
 
+// Event data type check. With RTTI, sending a state function the wrong EventData
+// type faults at run time (ASSERT_TRUE). Without RTTI (-fno-rtti, the default
+// on Arduino and ESP32) the check is skipped.
+#if defined(__GXX_RTTI) || defined(_CPPRTTI) || defined(__cpp_rtti)
+#define SM_DATA_CAST(Type, data) dynamic_cast<Type>(data)
+#else
+#define SM_DATA_CAST(Type, data) static_cast<Type>(data)
+#endif
+
 // If EXTERNAL_EVENT_NO_HEAP_DATA is defined it changes how a client sends data to the
 // state machine. When undefined, the ExternalEvent() pData argument must be created on the heap. 
 // The state machine will automatically delete the EventData pointer during state execution. 
@@ -65,7 +74,7 @@ public:
 		//    InternalEvent(ST_MY_STATE_FUNCTION, new MyEventData());
 		// This next internal event is not valid and causes the assert to fail:
 		//    InternalEvent(ST_MY_STATE_FUNCTION, new OtherEventData());
-		const Data* derivedData = dynamic_cast<const Data*>(data);
+		const Data* derivedData = SM_DATA_CAST(const Data*, data);
 		ASSERT_TRUE(derivedData != NULL);
 
 		// Call the state function
@@ -96,7 +105,7 @@ public:
 	virtual BOOL InvokeGuardCondition(StateMachine* sm, const EventData* data) const 
 	{
 		SM* derivedSM = static_cast<SM*>(sm);		
-		const Data* derivedData = dynamic_cast<const Data*>(data);
+		const Data* derivedData = SM_DATA_CAST(const Data*, data);
 		ASSERT_TRUE(derivedData != NULL);
 
 		// Call the guard function
@@ -125,7 +134,7 @@ public:
 	virtual void InvokeEntryAction(StateMachine* sm, const EventData* data) const
 	{
 		SM* derivedSM = static_cast<SM*>(sm);
-		const Data* derivedData = dynamic_cast<const Data*>(data);
+		const Data* derivedData = SM_DATA_CAST(const Data*, data);
 		ASSERT_TRUE(derivedData != NULL);
 
 		// Call the entry function
