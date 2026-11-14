@@ -2,6 +2,7 @@
 #include "Motor.h"
 #include "Player.h"
 #include "CentrifugeTest.h"
+#include <cstdio>
 
 // @see https://github.com/endurodave/StateMachine
 // David Lafreniere
