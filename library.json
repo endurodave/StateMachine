@@ -1,21 +1,66 @@
 {
   "name": "StateMachine",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Compact C++ finite state machine for embedded systems. Table-driven, guard/entry/exit actions, typed event data, no dependencies.",
-  "keywords": ["state machine", "fsm", "hsm", "embedded", "cpp", "event driven"],
-  "repository": { "type": "git", "url": "https://github.com/endurodave/StateMachine.git" },
-  "authors": [{ "name": "David Lafreniere", "url": "https://github.com/endurodave", "maintainer": true }],
+  "keywords": [
+    "state machine",
+    "fsm",
+    "hsm",
+    "embedded",
+    "cpp",
+    "event driven"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/endurodave/StateMachine.git"
+  },
+  "authors": [
+    {
+      "name": "David Lafreniere",
+      "url": "https://github.com/endurodave",
+      "maintainer": true
+    }
+  ],
   "license": "MIT",
   "homepage": "https://github.com/endurodave/StateMachine",
   "frameworks": "*",
   "platforms": "*",
   "headers": "StateMachine.h",
   "export": {
-    "include": ["StateMachine.cpp", "StateMachine.h", "Fault.cpp", "Fault.h", "DataTypes.h", "LICENSE", "README.md", "library.json"]
+    "include": [
+      "StateMachine.cpp",
+      "StateMachine.h",
+      "Fault.cpp",
+      "Fault.h",
+      "DataTypes.h",
+      "LICENSE",
+      "README.md",
+      "library.json",
+      "examples/platformio/statemachine-demo/platformio.ini",
+      "examples/platformio/statemachine-demo/src/main.cpp",
+      "examples/platformio/statemachine-demo/src/Motor.cpp",
+      "examples/platformio/statemachine-demo/src/Motor.h"
+    ]
   },
   "build": {
     "srcDir": ".",
     "includeDir": ".",
-    "srcFilter": ["-<*>", "+<StateMachine.cpp>", "+<Fault.cpp>"]
-  }
+    "srcFilter": [
+      "-<*>",
+      "+<StateMachine.cpp>",
+      "+<Fault.cpp>"
+    ]
+  },
+  "examples": [
+    {
+      "name": "statemachine-demo",
+      "base": "examples/platformio/statemachine-demo",
+      "files": [
+        "platformio.ini",
+        "src/main.cpp",
+        "src/Motor.cpp",
+        "src/Motor.h"
+      ]
+    }
+  ]
 }
