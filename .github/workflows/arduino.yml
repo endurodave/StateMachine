@@ -1,0 +1,62 @@
+name: Arduino
+
+# Checks the library the way the Arduino Library Manager does (arduino-lint)
+# and compiles the examples/ sketches with the Arduino toolchain, as the
+# Arduino IDE would after installing the library. Needs a full C++ standard
+# library, so not 8-bit AVR, nor the Due (arduino:sam has no std::nothrow).
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+# Least privilege for GITHUB_TOKEN: these jobs only check out code.
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+
+    - name: Arduino Lint
+      uses: arduino/arduino-lint-action@v2
+      with:
+        library-manager: submit
+        compliance: strict
+
+  compile:
+    name: compile ${{ matrix.fqbn }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - fqbn: arduino:renesas_uno:unor4wifi
+            platforms: |
+              - name: arduino:renesas_uno
+          - fqbn: arduino:samd:arduino_zero_native
+            platforms: |
+              - name: arduino:samd
+          - fqbn: esp32:esp32:esp32
+            platforms: |
+              - name: esp32:esp32
+                source-url: https://espressif.github.io/arduino-esp32/package_esp32_index.json
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+
+    - name: Compile examples
+      uses: arduino/compile-sketches@v1
+      with:
+        fqbn: ${{ matrix.fqbn }}
+        platforms: ${{ matrix.platforms }}
+        sketch-paths: |
+          - examples/Cpp_StateMachine_Demo
+        enable-warnings-report: true

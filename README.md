@@ -3,6 +3,7 @@
 [![Clang](https://github.com/endurodave/StateMachine/actions/workflows/cmake_clang.yml/badge.svg)](https://github.com/endurodave/StateMachine/actions/workflows/cmake_clang.yml)
 [![Windows](https://github.com/endurodave/StateMachine/actions/workflows/cmake_windows.yml/badge.svg)](https://github.com/endurodave/StateMachine/actions/workflows/cmake_windows.yml)
 [![PlatformIO](https://github.com/endurodave/StateMachine/actions/workflows/platformio.yml/badge.svg)](https://github.com/endurodave/StateMachine/actions/workflows/platformio.yml)
+[![Arduino](https://github.com/endurodave/StateMachine/actions/workflows/arduino.yml/badge.svg)](https://github.com/endurodave/StateMachine/actions/workflows/arduino.yml)
 
 # State Machine Design in C++
 A compact C++ finite state machine (FSM) implementation that's easy to use on embedded and PC-based systems.
@@ -66,13 +67,17 @@ Related repositories containing alternative state machine implementations.
    `cmake -B Build .`
 3. Build and run the project within the `Build` directory. 
 
+The library is the `src` folder (`StateMachine.cpp`/`.h`, `Fault.cpp`/`.h`). The desktop demo's state machines (Motor, Player, CentrifugeTest, SelfTest) are in `examples/desktop`, and the copies of Allocator and xallocator it can use are in `allocator`.
+
+**Arduino:** in the Arduino IDE the library is named **Cpp_StateMachine** (the name StateMachine is taken by another library). Install it from the Library Manager (Sketch &rarr; Include Library &rarr; Manage Libraries), then `#include <Cpp_StateMachine.h>` (not `StateMachine.h`, which the IDE may match to the other library) and see File &rarr; Examples &rarr; Cpp_StateMachine &rarr; Cpp_StateMachine_Demo. It needs a board with a full C++ standard library: UNO R4, Zero/MKR (SAMD), ESP32, RP2040, STM32 and similar; 8-bit AVR boards and the Due aren't supported.
+
 **PlatformIO:** StateMachine is in the [PlatformIO registry](https://registry.platformio.org/libraries/endurodave/StateMachine). Add it to `platformio.ini`:
 
 ```ini
-lib_deps = endurodave/StateMachine@^1.2.0
+lib_deps = endurodave/StateMachine@^1.3.0
 ```
 
-The library builds `StateMachine.cpp` and `Fault.cpp`; the Motor, Player and Centrifuge demos in the repository root aren't included. RTTI is optional: with RTTI, sending a state function the wrong event data type faults at run time; without it (`-fno-rtti`, the Arduino and ESP32 default) that check is skipped. A C++ standard library is required, so 8-bit AVR boards such as the Uno aren't supported.
+The library builds `StateMachine.cpp` and `Fault.cpp`; the desktop demos in `examples/desktop` aren't included. RTTI is optional: with RTTI, sending a state function the wrong event data type faults at run time; without it (`-fno-rtti`, the Arduino and ESP32 default) that check is skipped. A C++ standard library is required, so 8-bit AVR boards such as the Uno aren't supported.
 
 The [statemachine-demo](https://github.com/endurodave/StateMachine/tree/master/examples/platformio/statemachine-demo) example drives the Motor state machine through its states, then sends 1000 events to check that every event's data is deleted. It runs on ESP32, ESP32-C3, STM32 Nucleo-F401RE, STM32F4 Discovery, Raspberry Pi Pico and the desktop:
 
