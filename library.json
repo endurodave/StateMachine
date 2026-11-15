@@ -1,6 +1,6 @@
 {
   "name": "StateMachine",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Compact C++ finite state machine for embedded systems. Table-driven, guard/entry/exit actions, typed event data, no dependencies.",
   "keywords": [
     "state machine",
@@ -25,31 +25,27 @@
   "homepage": "https://github.com/endurodave/StateMachine",
   "frameworks": "*",
   "platforms": "*",
-  "headers": "StateMachine.h",
+  "headers": [
+    "StateMachine.h",
+    "Cpp_StateMachine.h"
+  ],
   "export": {
     "include": [
-      "StateMachine.cpp",
-      "StateMachine.h",
-      "Fault.cpp",
-      "Fault.h",
-      "DataTypes.h",
+      "src",
+      "examples",
       "LICENSE",
       "README.md",
       "library.json",
-      "examples/platformio/statemachine-demo/platformio.ini",
-      "examples/platformio/statemachine-demo/src/main.cpp",
-      "examples/platformio/statemachine-demo/src/Motor.cpp",
-      "examples/platformio/statemachine-demo/src/Motor.h"
+      "library.properties"
+    ],
+    "exclude": [
+      "**/.pio",
+      "**/.pio/**"
     ]
   },
   "build": {
-    "srcDir": ".",
-    "includeDir": ".",
-    "srcFilter": [
-      "-<*>",
-      "+<StateMachine.cpp>",
-      "+<Fault.cpp>"
-    ]
+    "srcDir": "src",
+    "includeDir": "src"
   },
   "examples": [
     {
@@ -60,6 +56,15 @@
         "src/main.cpp",
         "src/Motor.cpp",
         "src/Motor.h"
+      ]
+    },
+    {
+      "name": "Cpp_StateMachine_Demo",
+      "base": "examples/Cpp_StateMachine_Demo",
+      "files": [
+        "Cpp_StateMachine_Demo.ino",
+        "Motor.cpp",
+        "Motor.h"
       ]
     }
   ]

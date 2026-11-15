@@ -257,26 +257,34 @@ private:
 	void StateEngine(const StateMapRowEx* const pStateMapEx);
 };
 
+// State, guard and entry functions need not use their event data argument: no
+// unused-parameter warning for it
+#if defined(__GNUC__) || defined(__clang__)
+#define SM_UNUSED __attribute__((unused))
+#else
+#define SM_UNUSED
+#endif
+
 #define STATE_DECLARE(stateMachine, stateName, eventData) \
 	void ST_##stateName(const eventData*); \
 	StateAction<stateMachine, eventData, &stateMachine::ST_##stateName> stateName;
-	
+
 #define STATE_DEFINE(stateMachine, stateName, eventData) \
-	void stateMachine::ST_##stateName(const eventData* data)
+	void stateMachine::ST_##stateName(const eventData* data SM_UNUSED)
 		
 #define GUARD_DECLARE(stateMachine, guardName, eventData) \
 	BOOL GD_##guardName(const eventData*); \
 	GuardCondition<stateMachine, eventData, &stateMachine::GD_##guardName> guardName;
 	
 #define GUARD_DEFINE(stateMachine, guardName, eventData) \
-	BOOL stateMachine::GD_##guardName(const eventData* data)
+	BOOL stateMachine::GD_##guardName(const eventData* data SM_UNUSED)
 
 #define ENTRY_DECLARE(stateMachine, entryName, eventData) \
 	void EN_##entryName(const eventData*); \
 	EntryAction<stateMachine, eventData, &stateMachine::EN_##entryName> entryName;
 	
 #define ENTRY_DEFINE(stateMachine, entryName, eventData) \
-	void stateMachine::EN_##entryName(const eventData* data)
+	void stateMachine::EN_##entryName(const eventData* data SM_UNUSED)
 
 #define EXIT_DECLARE(stateMachine, exitName) \
 	void EX_##exitName(void); \

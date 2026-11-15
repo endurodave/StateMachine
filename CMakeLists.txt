@@ -12,9 +12,15 @@ cmake_minimum_required(VERSION 3.10)
 # Project name and language (C++)
 project(StateMachine VERSION 1.0 LANGUAGES CXX)
 
-# Collect all .cpp and *.h source files in the current directory
-file(GLOB SOURCES "${CMAKE_SOURCE_DIR}/*.cpp" "${CMAKE_SOURCE_DIR}/*.h")
+# The library (src/, the Arduino library layout), the desktop demo
+# (examples/desktop) and the copies of Allocator and xallocator (allocator/)
+file(GLOB SOURCES
+    "${CMAKE_SOURCE_DIR}/src/*.cpp" "${CMAKE_SOURCE_DIR}/src/*.h"
+    "${CMAKE_SOURCE_DIR}/examples/desktop/*.cpp" "${CMAKE_SOURCE_DIR}/examples/desktop/*.h"
+    "${CMAKE_SOURCE_DIR}/allocator/*.cpp" "${CMAKE_SOURCE_DIR}/allocator/*.h")
 
 # Add an executable target
 add_executable(StateMachineApp ${SOURCES})
+target_include_directories(StateMachineApp PRIVATE
+    ${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/examples/desktop ${CMAKE_SOURCE_DIR}/allocator)
 
