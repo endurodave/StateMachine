@@ -2,6 +2,7 @@
 [![Ubuntu](https://github.com/endurodave/StateMachine/actions/workflows/cmake_ubuntu.yml/badge.svg)](https://github.com/endurodave/StateMachine/actions/workflows/cmake_ubuntu.yml)
 [![Clang](https://github.com/endurodave/StateMachine/actions/workflows/cmake_clang.yml/badge.svg)](https://github.com/endurodave/StateMachine/actions/workflows/cmake_clang.yml)
 [![Windows](https://github.com/endurodave/StateMachine/actions/workflows/cmake_windows.yml/badge.svg)](https://github.com/endurodave/StateMachine/actions/workflows/cmake_windows.yml)
+[![PlatformIO](https://github.com/endurodave/StateMachine/actions/workflows/platformio.yml/badge.svg)](https://github.com/endurodave/StateMachine/actions/workflows/platformio.yml)
 
 # State Machine Design in C++
 A compact C++ finite state machine (FSM) implementation that's easy to use on embedded and PC-based systems.
@@ -65,7 +66,23 @@ Related repositories containing alternative state machine implementations.
    `cmake -B Build .`
 3. Build and run the project within the `Build` directory. 
 
-**PlatformIO:** add `lib_deps = StateMachine` to `platformio.ini`. The library builds `StateMachine.cpp` and `Fault.cpp`; the Motor, Player and Centrifuge demos aren't included. RTTI is optional: with RTTI, sending a state function the wrong event data type faults at run time; without it (`-fno-rtti`, the Arduino and ESP32 default) that check is skipped. A C++ standard library is required, so 8-bit AVR boards such as the Uno aren't supported.
+**PlatformIO:** StateMachine is in the [PlatformIO registry](https://registry.platformio.org/libraries/endurodave/StateMachine). Add it to `platformio.ini`:
+
+```ini
+lib_deps = endurodave/StateMachine@^1.2.0
+```
+
+The library builds `StateMachine.cpp` and `Fault.cpp`; the Motor, Player and Centrifuge demos in the repository root aren't included. RTTI is optional: with RTTI, sending a state function the wrong event data type faults at run time; without it (`-fno-rtti`, the Arduino and ESP32 default) that check is skipped. A C++ standard library is required, so 8-bit AVR boards such as the Uno aren't supported.
+
+The [statemachine-demo](https://github.com/endurodave/StateMachine/tree/master/examples/platformio/statemachine-demo) example drives the Motor state machine through its states, then sends 1000 events to check that every event's data is deleted. It runs on ESP32, ESP32-C3, STM32 Nucleo-F401RE, STM32F4 Discovery, Raspberry Pi Pico and the desktop:
+
+```shell
+cd examples/platformio/statemachine-demo
+pio run -e esp32dev -t upload -t monitor
+pio run -e native -t exec
+```
+
+A failed check (`ASSERT`, e.g. an event that `CANNOT_HAPPEN`) calls `FaultHandler(file, line)`, which halts (`abort()`), also in builds with `NDEBUG`. It is a weak symbol on GCC and Clang: define your own `extern "C" void FaultHandler(const char* file, unsigned short line)` to log or reset instead.
 
 # Introduction
 
